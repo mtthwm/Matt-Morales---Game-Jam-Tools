@@ -24,6 +24,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.performed)
         {
+            controller.Stop();
             interactionDriver.Interact();
         }
     }
