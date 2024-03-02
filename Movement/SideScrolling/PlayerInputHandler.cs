@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    [SerializeField] MovementController controller;
+    [SerializeField] SideScrollingMovementController controller;
     [SerializeField] CollisionInteractionDriver interactionDriver;
 
     public void Move (InputAction.CallbackContext context)
