@@ -5,29 +5,13 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     public delegate void InventoryAction ();
-    public static event InventoryAction OnModifyInventory;
+    public event InventoryAction OnModifyInventory;
 
-    public static InventoryManager instance;
-
-    private List<InventoryItem> items = new();
+    [SerializeField] private List<string> items = new();
 
     [SerializeField] private int maxCapacity;
 
-    void Awake()
-    {
-        // Singleton Pattern
-        if (instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(this);
-        }
-    }
-
-    public bool AddItem (InventoryItem item)
+    public bool AddItem (string item)
     {
         if (items.Count <= maxCapacity)
         {
@@ -42,19 +26,19 @@ public class InventoryManager : MonoBehaviour
 
     }
 
-    public bool CheckItem (InventoryItem item)
+    public bool CheckItem (string item)
     {
         return items.Contains(item);
     }
 
-    public bool RemoveItem(InventoryItem item)
+    public bool RemoveItem(string item)
     {
         bool result = items.Remove(item);
         OnModifyInventory?.Invoke();
         return result;
     }
 
-    public IEnumerable<InventoryItem> GetItems ()
+    public IEnumerable<string> GetItems ()
     {
         return items.ToArray();
     }

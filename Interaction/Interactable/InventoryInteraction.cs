@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class InventoryInteraction : BaseInteraction
 {
-    public delegate void InventoryHoverAction (InventoryItem[] items);
+    [SerializeField] private InventoryManager inventoryManager;
+
+    public delegate void InventoryHoverAction (string[] items);
     public static event InventoryHoverAction OnHoverEnter;
     public static event InventoryHoverAction OnHoverExit;
 
@@ -16,22 +18,22 @@ public class InventoryInteraction : BaseInteraction
     }
 
     [SerializeField] private InventoryModificationMode mode;
-    [SerializeField] private InventoryItem[] items;
+    [SerializeField] private string[] items;
 
     protected override void Action()
     {
         if (mode == InventoryModificationMode.Add)
         {
-            foreach (InventoryItem item in items)
+            foreach (string item in items)
             {
-                InventoryManager.instance.AddItem(item);
+                inventoryManager.AddItem(item);
             }
         }
         else
         {
-            foreach (InventoryItem item in items)
+            foreach (string item in items)
             {
-                InventoryManager.instance.RemoveItem(item);
+                inventoryManager.RemoveItem(item);
             }
         }
     }
@@ -46,7 +48,7 @@ public class InventoryInteraction : BaseInteraction
         OnHoverExit?.Invoke(items);
     }
 
-    public InventoryItem[] GetItems ()
+    public string[] GetItems ()
     {
         return items.ToArray();
     }

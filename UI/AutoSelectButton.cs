@@ -10,10 +10,6 @@ public class AutoSelectButton : MonoBehaviour
     void Start()
     {
         _btn = GetComponent<Button>();
-    }
-
-    private void OnEnable()
-    {
         _btn.Select();
     }
 

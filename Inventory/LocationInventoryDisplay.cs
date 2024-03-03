@@ -5,23 +5,24 @@ using UnityEngine;
 
 public class LocationInventoryDisplay : MonoBehaviour
 {
+    [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private Transform[] locations;
     [SerializeField] private Transform container;
 
     private void OnEnable()
     {
-        InventoryManager.OnModifyInventory += UpdateDisplay;
+        inventoryManager.OnModifyInventory += UpdateDisplay;
     }
 
     private void OnDisable()
     {
-        InventoryManager.OnModifyInventory -= UpdateDisplay;
+        inventoryManager.OnModifyInventory -= UpdateDisplay;
     }
 
     private void UpdateDisplay ()
     {
         ClearContainer();
-        InventoryItem[] items = InventoryManager.instance.GetItems().ToArray();
+        string[] items = inventoryManager.GetItems().ToArray();
         for (int i = 0; i < items.Length; i++)
         {
             GenerateSpriteObject(items[i], locations[i]);
@@ -29,9 +30,10 @@ public class LocationInventoryDisplay : MonoBehaviour
         }
     }
 
-    private GameObject GenerateSpriteObject (InventoryItem item, Transform t)
+    private GameObject GenerateSpriteObject (string itemName, Transform t)
     {
-        GameObject obj = new GameObject(item.id);
+        InventoryItem item = InventoryResolver.Instance.Resolve(itemName);
+        GameObject obj = new GameObject(item.name);
         SpriteRenderer spr = obj.AddComponent<SpriteRenderer>();
         spr.sprite = item.icon;
         obj.transform.parent = container;

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class InventoryPrerequisite : BasePrerequisite
 {
-    [SerializeField] private InventoryItem[] inventoryItems;
+    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private string[] inventoryItems;
     [SerializeField] private bool remove;
     [SerializeField] private bool oneTime;
 
@@ -18,9 +19,9 @@ public class InventoryPrerequisite : BasePrerequisite
         }
 
         bool result = true;
-        foreach (InventoryItem item in inventoryItems)
+        foreach (string item in inventoryItems)
         {
-            if (!InventoryManager.instance.CheckItem(item))
+            if (!inventoryManager.CheckItem(item))
             {
                 result = false;
                 break;
@@ -33,9 +34,9 @@ public class InventoryPrerequisite : BasePrerequisite
         }
         else
         {
-            foreach (InventoryItem item in inventoryItems)
+            foreach (string item in inventoryItems)
             {
-                InventoryManager.instance.RemoveItem(item);
+                inventoryManager.RemoveItem(item);
             }
             m_hasBeenSatisfied = true;
             return true;

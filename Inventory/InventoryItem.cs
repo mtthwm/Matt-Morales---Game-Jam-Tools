@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Inventory/InventoryItem", order = 1)]
 public class InventoryItem : ScriptableObject
 {
-    public string id;
     public Sprite icon;
 
     public override bool Equals(object other)
@@ -15,12 +14,12 @@ public class InventoryItem : ScriptableObject
             return false;
         }
 
-        return id.Equals(((InventoryItem)other).id);
+        return name.Equals(((InventoryItem)other).name);
     }
 
     public override int GetHashCode()
     {
-        return id.GetHashCode();
+        return name.GetHashCode();
     }
 
     public static bool operator == (InventoryItem item1, InventoryItem item2)
