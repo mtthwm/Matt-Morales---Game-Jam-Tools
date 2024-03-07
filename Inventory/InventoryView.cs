@@ -64,12 +64,16 @@ public class InventoryView : MonoBehaviour
                 string itemName = items[i];
                 slot.contents = itemName;
                 InventoryItem item = InventoryResolver.Instance.Resolve(itemName);
-                if (item != null)
+                if (item is not null)
                 {
                     slot.handle.transform.localScale = Vector3.one;
                     img.sprite = item.icon;
                     img.enabled = true;
                     btn.Item = itemName;
+                }
+                else
+                {
+                    Debug.LogWarning(itemName + " Not a valid inventory item!");
                 }
             }
         }

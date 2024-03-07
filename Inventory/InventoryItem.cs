@@ -27,7 +27,7 @@ public class InventoryItem : ScriptableObject
         return item1.Equals(item2);
     }
 
-    public static bool operator !=(InventoryItem item1, InventoryItem item2)
+    public static bool operator != (InventoryItem item1, InventoryItem item2)
     {
         return !item1.Equals(item2);
     }
