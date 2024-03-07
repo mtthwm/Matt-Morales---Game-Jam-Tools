@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -13,7 +14,7 @@ public class InventoryManager : MonoBehaviour
 
     public bool AddItem (string item)
     {
-        if (items.Count <= maxCapacity)
+        if (items.Count <= maxCapacity && !item.Equals(""))
         {
             items.Add(item);
             OnModifyInventory?.Invoke();
@@ -26,6 +27,22 @@ public class InventoryManager : MonoBehaviour
 
     }
 
+    public bool MoveItem (InventoryManager dest, string item)
+    {
+        if (!CheckItem(item) || !dest.CheckCapacity(1))
+        {
+            return false;
+        }
+
+        RemoveItem(item);
+        return dest.AddItem(item);
+    }
+
+    public string ItemAt (int i)
+    {
+        return items[i];
+    }
+
     public bool CheckItem (string item)
     {
         return items.Contains(item);
@@ -33,12 +50,17 @@ public class InventoryManager : MonoBehaviour
 
     public bool RemoveItem(string item)
     {
+        if (!CheckItem(item))
+        {
+            return false;
+        }
+
         bool result = items.Remove(item);
         OnModifyInventory?.Invoke();
         return result;
     }
 
-    public IEnumerable<string> GetItems ()
+    public string[] GetItems ()
     {
         return items.ToArray();
     }
