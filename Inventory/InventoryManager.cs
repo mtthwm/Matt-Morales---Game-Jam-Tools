@@ -7,6 +7,8 @@ public class InventoryManager : MonoBehaviour
 {
     public delegate void InventoryAction ();
     public event InventoryAction OnModifyInventory;
+    public delegate void InventoryMoveEvent(string item);
+    public event InventoryMoveEvent OnMoveItem;
 
     [SerializeField] private List<string> items = new();
 
@@ -35,6 +37,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         RemoveItem(item);
+        OnMoveItem?.Invoke(item);
         return dest.AddItem(item);
     }
 
